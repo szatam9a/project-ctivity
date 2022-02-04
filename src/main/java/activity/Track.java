@@ -76,8 +76,7 @@ public class Track {
         AtomicReference<Double> last = new AtomicReference<>(trackPoints.get(0).getElevation());
         trackPoints.stream().mapToDouble(e -> e.getElevation()).forEach(e -> {
             if (e > last.get()) {
-                elevation.updateAndGet(v -> new Double((double) (v + e - last.get())));
-
+                elevation.updateAndGet(v -> v + e - last.get());
             }
             last.set(e);
         });
@@ -99,5 +98,23 @@ public class Track {
             lastPoint = tempElev;
         }
         return decrease;
+    }
+
+    public Coordinate findMinimumCoordinate() {
+        Coordinate result = new Coordinate(
+                trackPoints.stream().mapToDouble(e -> e.getCoordinate().getLatitude()).min().getAsDouble()
+                ,
+                trackPoints.stream().mapToDouble(e -> e.getCoordinate().getLongitude()).min().getAsDouble()
+        );
+        return result;
+    }
+
+    public Coordinate findMaximumCoordinate() {
+        Coordinate result = new Coordinate(
+                trackPoints.stream().mapToDouble(e -> e.getCoordinate().getLatitude()).max().getAsDouble()
+                ,
+                trackPoints.stream().mapToDouble(e -> e.getCoordinate().getLongitude()).max().getAsDouble()
+        );
+        return result;
     }
 }

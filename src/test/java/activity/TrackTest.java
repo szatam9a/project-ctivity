@@ -47,27 +47,27 @@ public class TrackTest {
 //        assertTrue(track.getDistance() > 13611579.56 && track.getDistance() < 13611579.66);
 //    }
 //
-//    @Test
-//    public void testFindMinimumCoordinate() {
-//        track.addTrackPoint(new TrackPoint(new Coordinate(12.5, 34.89), 123));
-//        track.addTrackPoint(new TrackPoint(new Coordinate(-12.5, 45.7), 124));
-//        track.addTrackPoint(new TrackPoint(new Coordinate(13.7, -6.0), 0));
-//        track.addTrackPoint(new TrackPoint(new Coordinate(3.67, -42.789), 200));
-//
-//        assertEquals(-12.5, track.findMinimumCoordinate().getLatitude());
-//        assertEquals(-42.789, track.findMinimumCoordinate().getLongitude());
-//    }
-//
-//    @Test
-//    public void testFindMaximumCoordinate() {
-//        track.addTrackPoint(new TrackPoint(new Coordinate(12.5, 34.89), 123));
-//        track.addTrackPoint(new TrackPoint(new Coordinate(-12.5, 45.7), 124));
-//        track.addTrackPoint(new TrackPoint(new Coordinate(13.7, -6.0), 0));
-//        track.addTrackPoint(new TrackPoint(new Coordinate(3.67, -42.789), 200));
-//
-//        assertEquals(13.7, track.findMaximumCoordinate().getLatitude());
-//        assertEquals(45.7, track.findMaximumCoordinate().getLongitude());
-//    }
+    @Test
+    public void testFindMinimumCoordinate() {
+        track.addTrackPoint(new TrackPoint(new Coordinate(12.5, 34.89), 123));
+        track.addTrackPoint(new TrackPoint(new Coordinate(-12.5, 45.7), 124));
+        track.addTrackPoint(new TrackPoint(new Coordinate(13.7, -6.0), 0));
+        track.addTrackPoint(new TrackPoint(new Coordinate(3.67, -42.789), 200));
+
+        assertEquals(-12.5, track.findMinimumCoordinate().getLatitude());
+        assertEquals(-42.789, track.findMinimumCoordinate().getLongitude());
+    }
+
+    @Test
+   public void testFindMaximumCoordinate() {
+        track.addTrackPoint(new TrackPoint(new Coordinate(12.5, 34.89), 123));
+        track.addTrackPoint(new TrackPoint(new Coordinate(-12.5, 45.7), 124));
+        track.addTrackPoint(new TrackPoint(new Coordinate(13.7, -6.0), 0));
+        track.addTrackPoint(new TrackPoint(new Coordinate(3.67, -42.789), 200));
+
+        assertEquals(13.7, track.findMaximumCoordinate().getLatitude());
+        assertEquals(45.7, track.findMaximumCoordinate().getLongitude());
+    }
 //
 //    @Test
 //    public void testGetRectangleArea() {
