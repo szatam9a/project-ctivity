@@ -2,6 +2,9 @@ package activity;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.LinkedList;
@@ -22,6 +25,19 @@ public class Track {
 
     public void loadFromGpx(Path path) {
         try (BufferedReader br = Files.newBufferedReader(path)) {
+            String aLine;
+            String secondline;
+            while ((aLine = br.readLine()) != null) {
+                if (aLine.contains("<trkpt")) {
+                    checkTheLinesForDataType(aLine, (secondline = br.readLine()));
+                }
+            }
+        } catch (IOException io) {
+            throw new IllegalArgumentException("no file to read in");
+        }
+    }
+    public void loadFromGpx(InputStream path) {
+        try (BufferedReader br = new BufferedReader(new InputStreamReader(path))) {
             String aLine;
             String secondline;
             while ((aLine = br.readLine()) != null) {
@@ -116,5 +132,32 @@ public class Track {
                 trackPoints.stream().mapToDouble(e -> e.getCoordinate().getLongitude()).max().getAsDouble()
         );
         return result;
+    }
+
+    public double getDistance() {
+        if (trackPoints.size() < 2) {
+            throw new IllegalArgumentException("Cant calculate distance without track points");
+        }
+        TrackPoint last = trackPoints.get(0);
+        double distance = 0;
+        for (TrackPoint t : trackPoints) {
+            distance += t.getDistanceFrom(last);
+            last = t;
+        }
+        return distance;
+    }
+
+    public double getRectangleArea() {
+        return makeRectangle(findMinimumCoordinate(), findMaximumCoordinate());
+    }
+
+    private double makeRectangle(Coordinate min, Coordinate max) {
+        Coordinate minMin = new Coordinate(min.getLatitude(), min.getLongitude());
+        Coordinate minMax = new Coordinate(min.getLatitude(), max.getLongitude());
+        Coordinate maxMin = new Coordinate(max.getLatitude(), min.getLongitude());
+        double rectangleASide =  (minMax.getLongitude()-minMin.getLongitude());
+        double rectangleBSide =  (maxMin.getLatitude()-minMin.getLatitude());
+
+        return rectangleASide * rectangleBSide;
     }
 }

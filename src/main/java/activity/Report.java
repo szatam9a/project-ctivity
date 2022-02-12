@@ -1,6 +1,5 @@
 package activity;
 
-import java.util.Objects;
 
 public class Report {
     private final ActivityType activityType;

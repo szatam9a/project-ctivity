@@ -7,6 +7,7 @@ public class ActivityWithoutTrack implements Activity{
         this.activityType = activityType;
     }
 
+
     @Override
     public ActivityType getType() {
         return this.activityType;
